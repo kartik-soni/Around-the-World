@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="title" parent="Base.TextAppearance.AppCompat.Large">
+    <style name="headline" parent="Base.TextAppearance.AppCompat.Large">
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_marginLeft">16dp</item>
