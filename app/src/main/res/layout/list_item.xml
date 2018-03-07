@@ -6,14 +6,14 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/newsHeadline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Headline"
         style="@style/headline"/>
 
     <TextView
-        android:id="@+id/author"
+        android:id="@+id/newsAuthor"
         tools:text="Author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/newsDate"
             tools:text="Date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             style="@style/date"/>
 
         <TextView
-            android:id="@+id/section"
+            android:id="@+id/newsGenre"
             tools:text="Genre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

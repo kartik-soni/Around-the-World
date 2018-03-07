@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">News</string>
+    <string name="noConnection">Internet Connection not available</string>
 </resources>

@@ -29,14 +29,4 @@ public class News {
 
     public String getURL(){return mURL;}
 
-    @Override
-    public String toString() {
-        return "News{" +
-                "title='" + mTitle + '\'' +
-                ", author='" + mAuthor + '\'' +
-                ", url='" + mURL + '\'' +
-                ", date='" + mDate + '\'' +
-                ", section='" + mSection + '\'' +
-                '}';
-    }
 }

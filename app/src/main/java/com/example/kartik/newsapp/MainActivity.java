@@ -1,6 +1,9 @@
 package com.example.kartik.newsapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -10,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,20 +31,27 @@ public class MainActivity
         swipe = findViewById(R.id.refresh);
         swipe.setOnRefreshListener(this);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        ListView listView =  findViewById(R.id.list_view);
+        ListView listView = findViewById(R.id.list_view);
         adapter = new NewsAdapter(this);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                News news = adapter.getItem(i);
-                String url = news.getURL();
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                startActivity(intent);
-            }
-        });
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    News news = adapter.getItem(i);
+                    String url = news.getURL();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                }
+            });
+            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        }
+        else {
+            Toast.makeText(MainActivity.this, R.string.noConnection, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
