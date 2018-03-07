@@ -23,6 +23,7 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
         super.onStartLoading();
         forceLoad();
     }
+
     @Override
     public List<News> loadInBackground() {
         List<News> newsList = null;

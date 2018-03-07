@@ -20,36 +20,34 @@ import java.util.List;
 public class MainActivity
         extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<News>>, SwipeRefreshLayout.OnRefreshListener {
-    private NewsAdapter adapter;
+    private NewsAdapter newsAdapter;
     private static int LOADER_ID = 0;
-    SwipeRefreshLayout swipe;
+    SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        swipe = findViewById(R.id.refresh);
-        swipe.setOnRefreshListener(this);
-        swipe.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(this);
         ListView listView = findViewById(R.id.list_view);
-        adapter = new NewsAdapter(this);
-        listView.setAdapter(adapter);
+        newsAdapter = new NewsAdapter(this);
+        listView.setAdapter(newsAdapter);
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
+            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    News news = adapter.getItem(i);
+                    News news = newsAdapter.getItem(i);
                     String url = news.getURL();
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
                     startActivity(intent);
                 }
             });
-            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-        }
-        else {
+        } else {
             Toast.makeText(MainActivity.this, R.string.noConnection, Toast.LENGTH_LONG).show();
         }
     }
@@ -60,13 +58,13 @@ public class MainActivity
     }
 
     @Override
-    public void onLoadFinished(Loader<List<News>> loader, List<News> data) {
-        swipe.setRefreshing(false);
-        if (data != null) {
-            adapter.setNotifyOnChange(false);
-            adapter.clear();
-            adapter.setNotifyOnChange(true);
-            adapter.addAll(data);
+    public void onLoadFinished(Loader<List<News>> loader, List<News> newsData) {
+        swipeRefresh.setRefreshing(false);
+        if (newsData != null) {
+            newsAdapter.setNotifyOnChange(false);
+            newsAdapter.clear();
+            newsAdapter.setNotifyOnChange(true);
+            newsAdapter.addAll(newsData);
         }
     }
 
@@ -80,4 +78,3 @@ public class MainActivity
         getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 }
-

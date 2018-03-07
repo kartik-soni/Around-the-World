@@ -5,28 +5,38 @@ package com.example.kartik.newsapp;
  */
 
 public class News {
-    String mTitle;
-    String mAuthor;
-    String mDate;
-    String mSection;
-    String mURL;
+    String headline;
+    String author;
+    String date;
+    String genre;
+    String URL;
 
-    public News(String title,String author,String date,String section,String URL){
-            mTitle=title;
-            mAuthor=author;
-            mDate=date;
-            mSection=section;
-            mURL=URL;
+    public News(String newsHeadline, String newsAuthor, String newsDate, String newsGenre, String newsURL) {
+        headline = newsHeadline;
+        author = newsAuthor;
+        date = newsDate;
+        genre = newsGenre;
+        URL = newsURL;
     }
 
-    public String getTitle(){return mTitle;}
+    public String getTitle() {
+        return headline;
+    }
 
-    public String getAuthor(){return mAuthor;}
+    public String getAuthor() {
+        return author;
+    }
 
-    public String getDate(){return mDate;}
+    public String getDate() {
+        return date;
+    }
 
-    public String getSection(){return mSection;}
+    public String getSection() {
+        return genre;
+    }
 
-    public String getURL(){return mURL;}
+    public String getURL() {
+        return URL;
+    }
 
 }

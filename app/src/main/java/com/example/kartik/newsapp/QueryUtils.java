@@ -27,22 +27,22 @@ import java.util.Locale;
  */
 public class QueryUtils {
 
-    static String createStringUrl() {
+    static String StringUrl() {
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("http")
+        builder.scheme("https")
                 .encodedAuthority("content.guardianapis.com")
                 .appendPath("search")
                 .appendQueryParameter("order-by", "newest")
                 .appendQueryParameter("show-references", "author")
                 .appendQueryParameter("show-tags", "contributor")
-                .appendQueryParameter("q", "Android")
+                .appendQueryParameter("q", "Buisness%20OR%20Techonology%20OR%20Entrepreneurship")
                 .appendQueryParameter("api-key", "test");
         String url = builder.build().toString();
         return url;
     }
 
     static URL createUrl() {
-        String stringUrl = createStringUrl();
+        String stringUrl = StringUrl();
         try {
             return new URL(stringUrl);
         } catch (MalformedURLException e) {
@@ -52,23 +52,23 @@ public class QueryUtils {
     }
 
     private static String formatDate(String rawDate) {
-            String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-            SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.US);
-            try {
-                Date parsedJsonDate = jsonFormatter.parse(rawDate);
-                String finalDatePattern = "MMM d, yyy";
-                SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.US);
-                return finalDateFormatter.format(parsedJsonDate);
-            } catch (ParseException e) {
-                Log.e("QueryUtils", "Error parsing JSON date: ", e);
-                return "";
-            }
+        String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.US);
+        try {
+            Date parsedJsonDate = jsonFormatter.parse(rawDate);
+            String finalDatePattern = "MMM d, yyy";
+            SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.US);
+            return finalDateFormatter.format(parsedJsonDate);
+        } catch (ParseException e) {
+            Log.e("QueryUtils", "Error parsing JSON date: ", e);
+            return "";
+        }
     }
 
     static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
-        if (url == null){
+        if (url == null) {
             return jsonResponse;
         }
         HttpURLConnection urlConnection = null;
@@ -80,7 +80,7 @@ public class QueryUtils {
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.connect();
-            if (urlConnection.getResponseCode() == 200){
+            if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
@@ -121,24 +121,24 @@ public class QueryUtils {
             JSONArray resultsArray = jsonResults.getJSONArray("results");
 
             for (int i = 0; i < resultsArray.length(); i++) {
-                JSONObject oneResult = resultsArray.getJSONObject(i);
-                String webTitle = oneResult.getString("webTitle");
-                String url = oneResult.getString("webUrl");
-                String date = oneResult.getString("webPublicationDate");
-                date = formatDate(date);
-                String section = oneResult.getString("sectionName");
-                JSONArray tagsArray = oneResult.getJSONArray("tags");
-                String author = "";
+                JSONObject result = resultsArray.getJSONObject(i);
+                String newsHeadline = result.getString("webTitle");
+                String newsLink = result.getString("webUrl");
+                String newsDate = result.getString("webPublicationDate");
+                newsDate = formatDate(newsDate);
+                String newsGenre = result.getString("sectionName");
+                JSONArray tagsArray = result.getJSONArray("tags");
+                String newsAuthor = "";
 
                 if (tagsArray.length() == 0) {
-                    author = null;
+                    newsAuthor = null;
                 } else {
                     for (int j = 0; j < tagsArray.length(); j++) {
                         JSONObject firstObject = tagsArray.getJSONObject(j);
-                        author += firstObject.getString("webTitle") + ". ";
+                        newsAuthor = newsAuthor + firstObject.getString("webTitle") + ", ";
                     }
                 }
-                listOfNews.add(new News(webTitle,author,date,section,url));
+                listOfNews.add(new News(newsHeadline, newsAuthor, newsDate, newsGenre, newsLink));
             }
         } catch (JSONException e) {
             Log.e("Queryutils", "Error parsing JSON response", e);
