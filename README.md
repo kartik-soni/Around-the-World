@@ -17,10 +17,6 @@ Android application to view news and updates
 - Swipe down to refresh the news list
 - Tap any item to open the article in your browser
 
-# Instructions
-
-You need an API key from The Guardian API. Go to the class `QueryUtils`, find the `createStringUrl()` method and replace the query parameter value "test" for your API key. 
-
 # Screenshot
 ![](https://github.com/kartik-soni/News-App/blob/master/app/Screenshot%201.PNG)
 ![](https://github.com/kartik-soni/News-App/blob/master/app/Screenshot%202.PNG)
