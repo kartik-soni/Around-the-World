@@ -1,4 +1,4 @@
-# News-App
+# Around the World
 Android application to view news and updates
 
 ## Android Goodies
